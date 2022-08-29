@@ -20,3 +20,21 @@ AWS Terraform provider documentation: https://registry.terraform.io/providers/ha
 2) `terraform init`
 3) `terraform plan`
 4) `terraform apply`
+
+## View the deployment on AWS using the CLI
+
+```bash
+$ aws ec2 describe-instances  --query "Reservations[*].Instances[*].{PublicIP:PublicIpAddress,Name:Tags[?Key=='Name']|[0].Value,Status:State.Name}" --filters Name=instance-state-name,Values=running --output table
+```
+
+The above command generates the following table:
+
+```bash
+--------------------------------------
+|          DescribeInstances         |
++------+-----------------+-----------+
+| Name |    PublicIP     |  Status   |
++------+-----------------+-----------+
+|  None|  54.227.85.122  |  running  |
++------+-----------------+-----------+
+```
